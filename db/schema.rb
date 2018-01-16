@@ -15,6 +15,28 @@ ActiveRecord::Schema.define(version: 20180112232930) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "games", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "opponent_id"
+    t.integer  "current_turn_player_id"
+    t.integer  "winning_player_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "pieces", force: :cascade do |t|
+    t.string   "x_coordinate"
+    t.string   "y_coordinate"
+    t.string   "type"
+    t.boolean  "white"
+    t.integer  "user_id"
+    t.boolean  "taken"
+    t.integer  "game_id"
+    t.boolean  "selected"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -31,5 +53,6 @@ ActiveRecord::Schema.define(version: 20180112232930) do
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
+
 
 end
