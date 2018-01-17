@@ -2,16 +2,21 @@
   text-align: center;
 }
 
+.board-outline {
+  border: 1px solid #ccc;
+  border-color: #e4e4e4 #bebebd #bebebd #e4e4e4;
+}
+
 .board {
     float:left;
-    width: 12%;
-    padding-bottom: 12%;  /*  set equal to width for a 1:1 aspect ratio */
-    margin:0.25%;    /* we have 8 squares at 12% each = 96%, therefore remaining 4% / 16 (margins) */
+    width: 12.5%;
+    padding-bottom: 12.5%;  /*  set equal to width for a 1:1 aspect ratio */
+    margin:0%;    /* we have 8 squares at 12.5% each = 100%, no margins */
     background-color: #1E1E1E;
 }
 
 .white {
-  background-color: #DE131E;
+  background-color: #F7F7E9;
 }
 
 .black {
