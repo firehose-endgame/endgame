@@ -1,3 +1,39 @@
-// Place all the styles related to the games controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.board-title {
+  text-align: center;
+}
+
+.board {
+    float:left;
+    width: 12%;
+    padding-bottom: 12%;  /*  set equal to width for a 1:1 aspect ratio */
+    margin:0.25%;    /* we have 8 squares at 12% each = 96%, therefore remaining 4% / 16 (margins) */
+    background-color: #1E1E1E;
+}
+
+.white {
+  background-color: #DE131E;
+}
+
+.black {
+  background-color: #1E1E1E;
+}
+
+.one-four {
+  /* example - can use this reference to style individual board element, i.e. place piece image on board */
+}
+
+.sidebar {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-color: #e4e4e4 #bebebd #bebebd #e4e4e4;
+}
+
+.my {
+  text-align: center;
+  float:left;
+}
+
+.opponent {
+  text-align: center;
+}
+

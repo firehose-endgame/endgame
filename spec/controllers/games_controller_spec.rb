@@ -32,6 +32,7 @@ RSpec.describe GamesController, type: :controller do
       expect(response).to redirect_to game_path(game)
       expect(game.name).to eq("Test")
       expect(game.user).to eq(user)
+
     end
   end
 
