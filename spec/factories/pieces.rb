@@ -2,7 +2,6 @@ FactoryBot.define do
   factory :piece do
     x_coordinate 'd'
     y_coordinate '4'
-    type 'queen'
     white true
     user_id 1
     taken false

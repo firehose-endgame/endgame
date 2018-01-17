@@ -38,9 +38,9 @@ RSpec.describe Piece, type: :model do
       mover = FactoryBot.create(:piece, game_id: game.id)
       blocker = FactoryBot.create(:piece, x_coordinate: 'f', y_coordinate: '6', game_id: game.id)
       obstructed_move = mover.is_obstructed?('h', '8')
-      unobstructed_move_1 = mover.is_obstructed?('e', '2')
+      unobstructed_move_1 = mover.is_obstructed?('f', '2')
       unobstructed_move_2 = mover.is_obstructed?('b', '2')
-      unobstructed_move_3 = mover.is_obstructed?('e', '6')
+      unobstructed_move_3 = mover.is_obstructed?('b', '6')
       expect(obstructed_move).to eq true
       expect(unobstructed_move_1).to eq false
       expect(unobstructed_move_2).to eq false
