@@ -4,5 +4,8 @@ FactoryBot.define do
     opponent_id nil
     current_turn_player_id nil
     winning_player_id nil
+    name "Test"
+    association :user
   end
 end
+
