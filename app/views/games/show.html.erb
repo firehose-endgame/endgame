@@ -1,1 +1,97 @@
-<h1><%= @game.name %></h1>
+<div class="col-8 offset-2">
+  <h1 class="board-title"><%= @game.name %></h1>
+  <br />
+</div>
+    
+<div class="row">
+  <div class="col-2 my sidebar">
+    <%= @game.user.email %>
+  </div>
+  <div class="col-8">
+    <!-- 8th row */ -->
+    <div class="board white" data-id="H1"></div>
+    <div class="board black" data-id="H2"></div>
+    <div class="board white" data-id="H3"></div>
+    <div class="board black" data-id="H4"></div>
+    <div class="board white" data-id="H5"></div>
+    <div class="board black" data-id="H6"></div>
+    <div class="board white" data-id="H7"></div>
+    <div class="board black" data-id="H8"></div>
+    <!-- 7th row */ -->
+    <div class="board black" data-id="G1"></div>
+    <div class="board white" data-id="G2"></div>
+    <div class="board black" data-id="G3"></div>
+    <div class="board white" data-id="G4"></div>
+    <div class="board black" data-id="G5"></div>
+    <div class="board white" data-id="G6"></div>
+    <div class="board black" data-id="G7"></div>
+    <div class="board white" data-id="G8"></div>
+    <!-- 6th row */ -->
+    <div class="board white" data-id="F1"></div>
+    <div class="board black" data-id="F2"></div>
+    <div class="board white" data-id="F3"></div>
+    <div class="board black" data-id="F4"></div>
+    <div class="board white" data-id="F5"></div>
+    <div class="board black" data-id="F6"></div>
+    <div class="board white" data-id="F7"></div>
+    <div class="board black" data-id="F8"></div>
+    <!-- 5th row */ -->
+    <div class="board black" data-id="E1"></div>
+    <div class="board white" data-id="E2"></div>
+    <div class="board black" data-id="E3"></div>
+    <div class="board white" data-id="E4"></div>
+    <div class="board black" data-id="E5"></div>
+    <div class="board white" data-id="E6"></div>
+    <div class="board black" data-id="E7"></div>
+    <div class="board white" data-id="E8"></div>
+    <!-- 4th row */ -->
+    <div class="board white" data-id="D1"></div>
+    <div class="board black" data-id="D2"></div>
+    <div class="board white" data-id="D3"></div>
+    <div class="board black" data-id="D4"></div>
+    <div class="board white" data-id="D5"></div>
+    <div class="board black" data-id="D6"></div>
+    <div class="board white" data-id="D7"></div>
+    <div class="board black" data-id="D8"></div>
+    <!-- 3rd row */ -->
+    <div class="board black" data-id="C1"></div>
+    <div class="board white" data-id="C2"></div>
+    <div class="board black" data-id="C3"></div>
+    <div class="board white" data-id="C4"></div>
+    <div class="board black" data-id="C5"></div>
+    <div class="board white" data-id="C6"></div>
+    <div class="board black" data-id="C7"></div>
+    <div class="board white" data-id="C8"></div>
+    <!-- 2nd row */ -->
+    <div class="board white" data-id="B1"></div>
+    <div class="board black" data-id="B2"></div>
+    <div class="board white" data-id="B3"></div>
+    <div class="board black" data-id="B4"></div>
+    <div class="board white" data-id="B5"></div>
+    <div class="board black" data-id="B6"></div>
+    <div class="board white" data-id="B7"></div>
+    <div class="board black" data-id="B8"></div>
+    <!-- 1st row */ -->
+    <div class="board black one-one" data-id="A1"></div>
+    <div class="board white one-two" data-id="A2"></div>
+    <div class="board black one-three" data-id="A3"></div>
+    <div class="board white one-four" data-id="A4"></div>
+    <div class="board black one-five" data-id="A5"></div>
+    <div class="board white one-six" data-id="A6"></div>
+    <div class="board black one-seven" data-id="A7"></div>
+    <div class="board white one-eight" data-id="A8"></div>
+  </div>
+  <div class="col-2 opponent sidebar">
+    opponent here
+    <%= @game.opponent_id %>
+  </div>
+</div>
+
+<script src="toast.js"></script>
+
+<script>
+  $('body').click(function(e) {
+    var touched = $(e.target).data("id");
+    alert("you just clicked " + touched + ".");
+  });
+</script>
