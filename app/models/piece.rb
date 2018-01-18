@@ -8,7 +8,7 @@ class Piece < ApplicationRecord
     new_y = new_y.to_i
     old_x = x_converter[self.x_coordinate]
     old_y = y_coordinate.to_i
-    line_type = self.straight_line_check(new_x, new_y, old_x, old_y)
+    line_type = self.direction_check(new_x, new_y, old_x, old_y)
     if line_type == 'invalid'
 
       return true
@@ -52,7 +52,7 @@ class Piece < ApplicationRecord
     end
   end
 
-  def straight_line_check(new_x, new_y, old_x, old_y)
+  def direction_check(new_x, new_y, old_x, old_y)
     if new_y == old_y
       return 'horizontal'
     elsif new_x == old_x
