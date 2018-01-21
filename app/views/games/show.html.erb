@@ -1,3 +1,4 @@
+
 <%= javascript_include_tag "board" %>
 <div class="col-11 offset 0.5 container">
   <div class="col-8 offset-2">
@@ -11,7 +12,29 @@
     </div>
     <div class="col-8">
       <div class="board">
-          <!-- return html for set of 8x8 squares here -->
+        
+        <% row = 8 %>
+        <% while row > 0 %>
+          <% for column in 1..8 do %>
+
+            <% if row % 2 == 0 && column % 2 == 0 %>
+              <% colour = "black" %>
+            <% end %>
+            <% if row % 2 == 0 && column % 2 != 0 %>
+              <% colour = "white" %>
+            <% end %>
+            <% if row % 2 != 0 && column % 2 == 0 %>
+              <% colour = "white" %>
+            <% end %>
+            <% if row % 2 != 0 && column % 2 != 0 %>
+              <% colour = "black" %>
+            <% end %>
+            <div class="square <%= colour %> pos<%= row %><%= column %>" data-id="<%= row %><%= column %>"></div>
+
+          <% end %>
+        <% row = row -1 %>
+        <% end %>
+
       </div>
     </div>
     <div class="col-2 opponent sidebar">
