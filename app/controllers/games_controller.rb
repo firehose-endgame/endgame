@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create, :update]
 
   def new
     @game = Game.new
@@ -17,6 +17,12 @@ class GamesController < ApplicationController
   def show
     @game = Game.find_by_id(params[:id])
     render :status => 404 if @game.blank?
+  end
+
+  def update
+    @game = Game.find_by_id(params[:id])
+    @game.update(:opponent_id => current_user.id)
+    redirect_to game_path(@game)
   end
 
   private
