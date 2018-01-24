@@ -18,7 +18,7 @@
     };
     boardRef.html(boardhtmlElement);
   });
-*/
+
 
   // boiler plate for detecting user event
   $('body').click(function(e) {
@@ -26,3 +26,4 @@
     alert("you just clicked " + touched + ".");
   });
 
+*/
