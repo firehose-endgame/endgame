@@ -34,6 +34,7 @@ RSpec.describe GamesController, type: :controller do
       expect(game.user).to eq(user)
 
     end
+
   end
 
   describe "games#show" do
@@ -46,6 +47,25 @@ RSpec.describe GamesController, type: :controller do
     it "should return a 404 error if the game is not found" do
       get :show, params: { id: 'NOT ID' }
       expect(response).to have_http_status(:not_found)
+    end
+
+    it "should not create the pieces again when game is returned to" do
+      user = FactoryBot.create(:user)
+      game = FactoryBot.create(:game, user_id: user.id)
+      game_pieces = Piece.count
+      get :show, params: { id: game.id }
+      expect(game_pieces).to eq(Piece.count)
+    end
+
+    it "should reflect the current state of the game" do
+      user = FactoryBot.create(:user)
+      game = FactoryBot.create(:game, user_id: user.id)
+      move_piece = Piece.last
+      move_piece.x_coordinate = 5
+      move_piece.y_coordinate = 5
+      get :show, params: { id: game.id }
+      expect(move_piece.x_coordinate).to eq(5)
+      expect(move_piece.y_coordinate).to eq(5)
     end
   end
 
