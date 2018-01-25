@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180117040610) do
+ActiveRecord::Schema.define(version: 20180125045114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 20180117040610) do
   end
 
   create_table "pieces", force: :cascade do |t|
-    t.string   "x_coordinate"
-    t.string   "y_coordinate"
+    t.integer  "x_coordinate"
+    t.integer  "y_coordinate"
     t.string   "type"
     t.boolean  "white"
     t.integer  "user_id"

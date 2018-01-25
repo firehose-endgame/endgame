@@ -1,4 +1,3 @@
-
 <%= javascript_include_tag "board" %>
 <div class="col-11 offset 0.5 container">
   <div class="col-8 offset-2">
@@ -19,7 +18,11 @@
             <div class="square <%= colour %> pos<%= row %><%= column %>" data-id="<%= row %><%= column %>">
               <% @pieces.each do |piece| %>
                 <% if row == piece.y_coordinate and column == piece.x_coordinate %>
-                  <div class="piece"><%= link_to piece.type, piece_path(piece) %></div>
+                  <% if @piece == piece %>
+                    <div class="piece highlight"><%= link_to piece.type, edit_piece_path(piece) %></div>
+                  <% else %>
+                    <div class="piece"><%= link_to piece.type, piece_path(piece) %></div>
+                  <% end %>
                 <% end %>
               <% end %>
             </div>
