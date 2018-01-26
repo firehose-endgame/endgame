@@ -71,7 +71,7 @@ class Piece < ApplicationRecord
   def piece_here?(x, y)
     if Piece.where("x_coordinate = ? AND y_coordinate = ?", x, y) == []
       return false
-    else 
+    else
       return true
     end
   end

@@ -8,4 +8,9 @@ FactoryBot.define do
     game_id 1
     selected false
   end
+  factory :king, parent: :piece do
+    type "King"
+    x_coordinate 4
+    y_coordinate 4
+  end
 end
