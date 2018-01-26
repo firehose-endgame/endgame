@@ -4,4 +4,6 @@ module GamesHelper
     row % 2 == 0 && column % 2 == 0 || row % 2 != 0 && column % 2 != 0
   end
 
+
+
 end
