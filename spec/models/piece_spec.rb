@@ -47,4 +47,60 @@ RSpec.describe Piece, type: :model do
       expect(unobstructed_move_3).to eq false
     end
   end
+
+
+	describe "#move_to" do
+		let(:game) {
+			FactoryBot.create(:game)
+		}
+		let(:piece) {
+			FactoryBot.create(:piece, white: true, x_coordinate: 1, y_coordinate: 1, game: game)
+		}
+		context "when moving to an empty square" do
+			before do
+				piece.move_to(3,5)
+			end
+			it "updates the piece's X position" do
+				expect(piece.x_coordinate).to eq(3)
+			end
+
+			it "updates the piece's Y position" do
+				expect(piece.y_coordinate).to eq(5)
+			end
+		end
+
+		context "when the square is occupied with opponent piece" do
+			let(:opponent_piece) {
+				FactoryBot.create(:piece, white: false, x_coordinate: 3, y_coordinate: 5, game: game)
+			}
+			before do
+				opponent_piece
+				piece.move_to(3,5)
+			end
+			it "updates the piece's X position" do
+				expect(piece.x_coordinate).to eq(3)
+			end
+
+			it "updates the piece's Y position" do
+				expect(piece.x_coordinate).to eq(3)
+			end
+			it "captures the opponent piece" do
+				expect(opponent_piece.reload.taken).to eq(true)
+			end
+		end
+
+		context "when the square is occupied with our own piece" do
+			before do
+				FactoryBot.create(:piece, white: true, x_coordinate: 3, y_coordinate: 5, game: game)
+				piece.move_to(3,5)
+			end
+			it "does NOT update the piece's X position" do
+				expect(piece.x_coordinate).not_to eq(3)
+			end
+
+			it "does NOT update piece's Y position" do
+				expect(piece.x_coordinate).not_to eq(3)
+			end
+		end
+	end
 end

@@ -75,4 +75,15 @@ class Piece < ApplicationRecord
       return true
     end
   end
+
+
+  def move_to(x, y)
+    other_piece = Piece.where(game_id: game_id, x_coordinate: x, y_coordinate: y).first
+    if other_piece && other_piece.white != self.white
+      other_piece.update_attributes(taken: true)
+      self.update_attributes(x_coordinate: x, y_coordinate: y)
+    elsif other_piece.nil?
+      self.update_attributes(x_coordinate: x, y_coordinate: y)
+    end
+  end
 end
