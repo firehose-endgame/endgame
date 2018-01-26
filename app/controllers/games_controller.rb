@@ -23,7 +23,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find_by_id(params[:id])
-    render :status => 404 if @game.blank?
+    return render :status => 404 if @game.blank?
     @pieces = @game.pieces.all
   end
 

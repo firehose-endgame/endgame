@@ -4,19 +4,15 @@ class PiecesController < ApplicationController
   end
 
   def update
-    @piece = Piece.find(params[:id])
-    if @piece.update_attributes(piece_params)
-      flash[:success] = "Your settings have been saved!"
-      redirect_to game_path(@piece.game)
-    else
-      render text: "Not Saved"
-    end
+    @piece = Piece.find_by_id(params[:id])
+    @piece.update_attributes(piece_params)
+    redirect_to game_path(@piece.game)
   end
 
   def show
     @piece = Piece.find_by_id(params[:id])
+    return render :status => 404 if @piece.blank?
     @pieces = @piece.game.pieces
-    render :status => 404 if @piece.blank?
     @game = @piece.game
   end
 
@@ -27,6 +23,6 @@ class PiecesController < ApplicationController
   private
 
   def piece_params
-    params.fetch(:piece, {}).permit(:x_coordinate, :y_coordinate)
+    params.require(:piece).permit(:x_coordinate, :y_coordinate)
   end
 end
