@@ -7,5 +7,6 @@ FactoryBot.define do
     taken false
     game_id 1
     selected false
+    association :game
   end
 end

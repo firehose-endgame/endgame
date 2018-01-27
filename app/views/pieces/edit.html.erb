@@ -1,0 +1,7 @@
+ <h1>Move Piece</h1>
+
+<%= simple_form_for :piece, :url => piece_path(@piece), :method => :put do |f| %>
+  <%= f.input :x_coordinate %>
+  <%= f.input :y_coordinate %>
+  <%= f.submit 'Move', class: 'my-btn' %>
+<% end %>

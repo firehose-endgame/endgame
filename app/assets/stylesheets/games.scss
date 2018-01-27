@@ -12,6 +12,7 @@
 }
 
 .square {
+    position: relative;
     float:left;
     width: 12.5%;
     padding-bottom: 12.5%;  /*  set equal to width for a 1:1 aspect ratio */
@@ -53,4 +54,3 @@
 .opponent {
   text-align: center;
 }
-
