@@ -15,7 +15,7 @@ class Piece < ApplicationRecord
       current_space = old_x + iteration
       return true if current_space == new_x
       while current_space != new_x
-        return true if self.piece_here?(current_space, new_y)
+        return true if self.piece_here?(current_space, new_y, self.game_id)
         current_space += iteration
       end
       return false
@@ -26,7 +26,7 @@ class Piece < ApplicationRecord
       current_space = old_y + iteration
       return true if current_space == new_y
       while current_space != new_y
-        return true if self.piece_here?(new_x, current_space)
+        return true if self.piece_here?(new_x, current_space, self.game_id)
         current_space += iteration
       end
       return false
@@ -39,7 +39,7 @@ class Piece < ApplicationRecord
       current_y = old_y + y_iteration
       return true if current_x == new_x
       while current_x != new_x
-        return true if self.piece_here?(current_x, current_y)
+        return true if self.piece_here?(current_x, current_y, self.game_id)
         current_x += x_iteration
         current_y += y_iteration
       end
@@ -68,8 +68,8 @@ class Piece < ApplicationRecord
     absolute_x == absolute_y ? true : false
   end
 
-  def piece_here?(x, y)
-    if Piece.where("x_coordinate = ? AND y_coordinate = ?", x, y) == []
+  def piece_here?(x, y, game)
+    if Piece.where(game_id: game_id, x_coordinate: x, y_coordinate: y) == []
       return false
     else
       return true
@@ -78,11 +78,13 @@ class Piece < ApplicationRecord
 
 
   def move_to(x, y)
-    other_piece = Piece.where(game_id: game_id, x_coordinate: x, y_coordinate: y).first
-    if other_piece && other_piece.white != self.white
-      other_piece.update_attributes(taken: true)
-      self.update_attributes(x_coordinate: x, y_coordinate: y)
-    elsif other_piece.nil?
+    if piece_here?(x, y, self.game_id)
+      other_piece = Piece.where(game_id: game_id, x_coordinate: x, y_coordinate: y).first
+      if other_piece.white != self.white
+        other_piece.update_attributes(x_coordinate: 0, y_coordinate: 0, taken: true)
+        self.update_attributes(x_coordinate: x, y_coordinate: y)
+      end
+    else
       self.update_attributes(x_coordinate: x, y_coordinate: y)
     end
   end
