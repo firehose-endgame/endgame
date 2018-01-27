@@ -2,12 +2,8 @@ class Piece < ApplicationRecord
   belongs_to :game
 
   def is_obstructed?(new_x, new_y)
-    x_converter = { 'a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5, 'f' => 6, 'g' => 7, 'h' => 8 }
-    x_searcher = { 1 => 'a', 2 => 'b', 3 => 'c', 4 => 'd', 5 => 'e', 6 => 'f', 7 => 'g', 8 => 'h' }
-    new_x = x_converter[new_x]
-    new_y = new_y.to_i
-    old_x = x_converter[self.x_coordinate]
-    old_y = y_coordinate.to_i
+    old_x = self.x_coordinate
+    old_y = self.y_coordinate
     line_type = self.direction_check(new_x, new_y, old_x, old_y)
     if line_type == 'invalid'
 
@@ -19,7 +15,7 @@ class Piece < ApplicationRecord
       current_space = old_x + iteration
       return true if current_space == new_x
       while current_space != new_x
-        return true if self.piece_here?(x_searcher[current_space], new_y.to_s)
+        return true if self.piece_here?(current_space, new_y)
         current_space += iteration
       end
       return false
@@ -30,7 +26,7 @@ class Piece < ApplicationRecord
       current_space = old_y + iteration
       return true if current_space == new_y
       while current_space != new_y
-        return true if self.piece_here?(x_searcher[new_x], current_space.to_s)
+        return true if self.piece_here?(new_x, current_space)
         current_space += iteration
       end
       return false
@@ -43,7 +39,7 @@ class Piece < ApplicationRecord
       current_y = old_y + y_iteration
       return true if current_x == new_x
       while current_x != new_x
-        return true if self.piece_here?(x_searcher[current_x], current_y.to_s)
+        return true if self.piece_here?(current_x, current_y)
         current_x += x_iteration
         current_y += y_iteration
       end
@@ -75,7 +71,7 @@ class Piece < ApplicationRecord
   def piece_here?(x, y)
     if Piece.where("x_coordinate = ? AND y_coordinate = ?", x, y) == []
       return false
-    else 
+    else
       return true
     end
   end

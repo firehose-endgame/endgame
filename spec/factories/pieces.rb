@@ -9,4 +9,9 @@ FactoryBot.define do
     selected false
     association :game
   end
+  factory :king, parent: :piece do
+    type "King"
+    x_coordinate 4
+    y_coordinate 4
+  end
 end

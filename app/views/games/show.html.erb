@@ -12,19 +12,25 @@
     </div>
     <div class="col-8">
       <div class="board">
+
         
         <% 8.downto(1).each do |row| %>
           <% 1.upto(8).each do |column| %>
             <% cell_black(row, column)? colour = 'black' : colour = 'white'%>
             <div class="square <%= colour %> pos<%= row %><%= column %>" data-id="<%= row %><%= column %>">
-              <% @pieces.each do |piece| %>
-                <% if row == piece.y_coordinate and column == piece.x_coordinate %>
-                  <div class="piece"><%= link_to piece.type, piece_path(piece) %></div>
+
+              <% @game.pieces.each do |piece| %>
+                <% if piece.y_coordinate == row && piece.x_coordinate == column %>
+                  <div class="piece"><%= piece.type %></div>
                 <% end %>
               <% end %>
+
             </div>
           <% end %>
         <% end %>
+
+
+
 
       </div>
     </div>
