@@ -21,7 +21,7 @@
 
               <% @game.pieces.each do |piece| %>
                 <% if piece.y_coordinate == row && piece.x_coordinate == column %>
-                  <div class="piece"><%= piece.type %></div>
+                  <div class="piece"><%= link_to piece.type, piece_path(piece) %></div>
                 <% end %>
               <% end %>
 
