@@ -9,4 +9,7 @@ FactoryBot.define do
     selected false
     association :game
   end
+  factory :king, class: King, parent: :piece do
+    type "King"
+  end
 end
