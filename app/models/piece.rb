@@ -75,4 +75,20 @@ class Piece < ApplicationRecord
       return true
     end
   end
+
+  def same_square?(new_x, new_y)
+    return new_x == self.x_coordinate && new_y == self.y_coordinate
+  end
+
+  def off_board?(new_x, new_y)
+    return new_x > 8 || new_y > 8 || new_x < 1 || new_y < 1
+  end
+
+  def is_valid?(new_x, new_y)
+    return false if off_board?(new_x, new_y)
+    return false if same_square?(new_x, new_y)
+    return false if is_obstructed?(new_x, new_y)
+    return true
+  end
 end
+

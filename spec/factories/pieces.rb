@@ -12,4 +12,7 @@ FactoryBot.define do
   factory :king, class: King, parent: :piece do
     type "King"
   end
+  factory :queen, class: Queen, parent: :piece do
+    type "Queen"
+  end
 end
