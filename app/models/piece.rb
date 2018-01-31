@@ -15,7 +15,7 @@ class Piece < ApplicationRecord
       current_space = old_x + iteration
       return true if current_space == new_x
       while current_space != new_x
-        return true if self.piece_here?(current_space, new_y, self.game_id)
+        return true if self.piece_here?(current_space, new_y)
         current_space += iteration
       end
       return false
@@ -26,7 +26,7 @@ class Piece < ApplicationRecord
       current_space = old_y + iteration
       return true if current_space == new_y
       while current_space != new_y
-        return true if self.piece_here?(new_x, current_space, self.game_id)
+        return true if self.piece_here?(new_x, current_space)
         current_space += iteration
       end
       return false
@@ -39,7 +39,7 @@ class Piece < ApplicationRecord
       current_y = old_y + y_iteration
       return true if current_x == new_x
       while current_x != new_x
-        return true if self.piece_here?(current_x, current_y, self.game_id)
+        return true if self.piece_here?(current_x, current_y)
         current_x += x_iteration
         current_y += y_iteration
       end
@@ -68,8 +68,8 @@ class Piece < ApplicationRecord
     absolute_x == absolute_y ? true : false
   end
 
-  def piece_here?(x, y, game)
-    if Piece.where(game_id: game_id, x_coordinate: x, y_coordinate: y) == []
+  def piece_here?(x, y)
+    if Piece.where(game_id: self.game_id, x_coordinate: x, y_coordinate: y) == []
       return false
     else
       return true
@@ -78,14 +78,22 @@ class Piece < ApplicationRecord
 
 
   def move_to(x, y)
-    if piece_here?(x, y, self.game_id)
+    if piece_here?(x, y)
       other_piece = Piece.where(game_id: game_id, x_coordinate: x, y_coordinate: y).first
       if other_piece.white != self.white
-        other_piece.update_attributes(x_coordinate: 0, y_coordinate: 0, taken: true)
-        self.update_attributes(x_coordinate: x, y_coordinate: y)
+        capture!(other_piece)
+        move!(x, y)
       end
     else
-      self.update_attributes(x_coordinate: x, y_coordinate: y)
+      move!(x, y)
     end
+  end
+
+  def capture!(piece)
+    piece.update_attributes(x_coordinate: 0, y_coordinate: 0, taken: true)
+  end
+
+  def move!(x, y)
+    self.update_attributes(x_coordinate: x, y_coordinate: y)
   end
 end
