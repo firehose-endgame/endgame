@@ -69,11 +69,31 @@ class Piece < ApplicationRecord
   end
 
   def piece_here?(x, y)
-    if Piece.where("x_coordinate = ? AND y_coordinate = ?", x, y) == []
+    if Piece.where(game_id: self.game_id, x_coordinate: x, y_coordinate: y) == []
       return false
     else
       return true
     end
+  end
+
+  def move_to(x, y)
+    if piece_here?(x, y)
+      other_piece = Piece.where(game_id: game_id, x_coordinate: x, y_coordinate: y).first
+      if other_piece.white != self.white
+        capture!(other_piece)
+        move!(x, y)
+      end
+    else
+      move!(x, y)
+    end
+  end
+
+  def capture!(piece)
+    piece.update_attributes(x_coordinate: 0, y_coordinate: 0, taken: true)
+  end
+
+  def move!(x, y)
+    self.update_attributes(x_coordinate: x, y_coordinate: y)
   end
 
   def same_square?(new_x, new_y)
@@ -89,6 +109,5 @@ class Piece < ApplicationRecord
     return false if same_square?(new_x, new_y)
     return false if is_obstructed?(new_x, new_y)
     return true
-  end
 end
 
