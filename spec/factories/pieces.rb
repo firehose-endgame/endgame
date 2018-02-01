@@ -5,7 +5,6 @@ FactoryBot.define do
     white true
     user_id 1
     taken false
-    game
     selected false
     association :game
   end
