@@ -37,7 +37,9 @@ RSpec.describe Piece, type: :model do
 
       it "should allow a vertical move" do
           rook = FactoryBot.create(:rook)
-          is_valid = rook.is_valid?(4,2)
+          obstructing_piece = Piece.where(:game_id => rook.game_id, :x_coordinate => 4, :y_coordinate => 7)
+          obstructing_piece.delete_all
+          is_valid = rook.is_valid?(4,8)
           expect(is_valid).to eq true
       end
 
