@@ -24,7 +24,7 @@ class Piece < ApplicationRecord
       return false
 
     elsif is_valid_diagonal?(new_x, new_y)
-      
+
       x_coordinate < new_x ? x_iteration = 1 : x_iteration = -1
       y_coordinate < new_y ? y_iteration = 1 : y_iteration = -1
       current_x = x_coordinate + x_iteration
@@ -39,7 +39,7 @@ class Piece < ApplicationRecord
     else
 
       return true
-    
+
     end
   end
 
