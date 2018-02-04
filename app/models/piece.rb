@@ -95,8 +95,15 @@ class Piece < ApplicationRecord
     return new_x > 8 || new_y > 8 || new_x < 1 || new_y < 1
   end
 
+  def own_piece_here?(new_x, new_y)
+    other_piece = Piece.where(game_id: game_id, x_coordinate: new_x, y_coordinate: new_y)
+    return true if other_piece.any? && other_piece.first.white == white
+    return false
+  end
+
   def is_valid?(new_x, new_y)
-    return false if off_board?(new_x, new_y) || same_square?(new_x, new_y) || is_obstructed?(new_x, new_y)
+    return false if off_board?(new_x, new_y) || same_square?(new_x, new_y)
+    return false if is_obstructed?(new_x, new_y) || own_piece_here?(new_x, new_y)
     return true
   end
 end

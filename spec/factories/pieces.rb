@@ -14,4 +14,7 @@ FactoryBot.define do
   factory :queen, class: Queen, parent: :piece do
     type "Queen"
   end
+  factory :pawn, class: Pawn, parent: :piece do
+    type "Pawn"
+  end
 end
