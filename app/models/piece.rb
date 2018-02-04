@@ -60,11 +60,12 @@ class Piece < ApplicationRecord
   end
 
   def piece_here?(x, y)
-    if Piece.where(game_id: self.game_id, x_coordinate: x, y_coordinate: y) == []
-      return false
-    else
-      return true
-    end
+    @other_piece = game.pieces.find_by(x_coordinate: x, y_coordinate: y)
+    @other_piece.nil? ? false : true
+  end
+
+  def own_here?(new_x, new_y)
+    @other_piece.white == white
   end
 
   def move_to(x, y)
@@ -84,7 +85,7 @@ class Piece < ApplicationRecord
   end
 
   def move!(x, y)
-    self.update_attributes(x_coordinate: x, y_coordinate: y)
+    self.update_attributes(x_coordinate: x, y_coordinate: y, moved: true)
   end
 
   def same_square?(new_x, new_y)
@@ -95,15 +96,9 @@ class Piece < ApplicationRecord
     return new_x > 8 || new_y > 8 || new_x < 1 || new_y < 1
   end
 
-  def own_piece_here?(new_x, new_y)
-    other_piece = Piece.where(game_id: game_id, x_coordinate: new_x, y_coordinate: new_y)
-    return true if other_piece.any? && other_piece.first.white == white
-    return false
-  end
-
   def is_valid?(new_x, new_y)
-    return false if off_board?(new_x, new_y) || same_square?(new_x, new_y)
-    return false if is_obstructed?(new_x, new_y) || own_piece_here?(new_x, new_y)
+    return false if off_board?(new_x, new_y) || same_square?(new_x, new_y) || is_obstructed?(new_x, new_y)
+    return false if piece_here?(new_x, new_y) && own_here?(new_x, new_y)
     return true
   end
 end
