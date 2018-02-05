@@ -14,10 +14,13 @@ FactoryBot.define do
   factory :queen, class: Queen, parent: :piece do
     type "Queen"
   end
-    factory :rook, class: Rook, parent: :piece do
+  factory :pawn, class: Pawn, parent: :piece do
+    type "Pawn"
+  end
+  factory :rook, class: Rook, parent: :piece do
     type "Rook"
   end
-    factory :knight, class: Knight, parent: :piece do
+  factory :knight, class: Knight, parent: :piece do
     type "Knight"
   end
 end
