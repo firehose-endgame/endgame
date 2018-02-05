@@ -41,14 +41,16 @@ class Game < ApplicationRecord
     end
   end
 
-
-
   def create_piece(x, y, piece)
     Piece.create(x_coordinate: x, y_coordinate: y, type: piece, white: (y<=2), taken: false, game_id: id, selected: false, user_id:((y<=2)? user.id : nil))
   end 
 
-
-
-
-
+  def check?(white)
+    king = pieces.where(type: 'King', white: white).first
+    other_pieces = pieces.where(white: !white)
+    other_pieces.each do |piece|
+      return true if piece.is_valid?(king.x_coordinate, king.y_coordinate)
+    end
+    false
+  end
 end
