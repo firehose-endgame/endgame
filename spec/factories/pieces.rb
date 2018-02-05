@@ -19,4 +19,5 @@ FactoryBot.define do
   end
     factory :knight, class: Knight, parent: :piece do
     type "Knight"
+  end
 end
