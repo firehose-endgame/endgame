@@ -8,7 +8,6 @@ FactoryBot.define do
     selected false
     association :game
   end
-<<<<<<< HEAD
     factory :king, class: King, parent: :piece do
       type "King"
     end
@@ -29,26 +28,4 @@ FactoryBot.define do
       type "Knight"
 
     end
-=======
-  factory :king, class: King, parent: :piece do
-    type "King"
-  end
-  factory :queen, class: Queen, parent: :piece do
-    type "Queen"
-  end
-
-  factory :bishop, class: Bishop, parent: :piece do
-    type "Bishop"
-
-  factory :pawn, class: Pawn, parent: :piece do
-    type "Pawn"
-  end
-  factory :rook, class: Rook, parent: :piece do
-    type "Rook"
-  end
-  factory :knight, class: Knight, parent: :piece do
-    type "Knight"
-
-  end
->>>>>>> e490f7982caa3dcee94e6ad1a3949890dc1e5adb
 end
