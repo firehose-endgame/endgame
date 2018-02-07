@@ -5,11 +5,7 @@ RSpec.describe PiecesController, type: :controller do
     let(:piece){FactoryBot.create(:piece)}
     before do
       put :update, params: { id: piece.id, piece: { x_coordinate: 5, y_coordinate: 5 }}
-    end
-    
-    it "should redirect to the game show page" do
-      expect(response).to redirect_to game_path(piece.game)
-    end    
+    end   
     
     it "should allow users to update the coordinates" do
       piece.reload

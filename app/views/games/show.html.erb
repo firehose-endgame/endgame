@@ -1,5 +1,6 @@
 
 <%= javascript_include_tag "board" %>
+
 <div class="col-11 offset 0.5 container">
   <div class="col-8 offset-2">
     <h1 class="board-title"><%= @game.name %></h1>
@@ -13,15 +14,16 @@
     <div class="col-8">
       <div class="board">
 
-        
         <% 8.downto(1).each do |row| %>
           <% 1.upto(8).each do |column| %>
             <% cell_black(row, column)? colour = 'black' : colour = 'white'%>
-            <div class="square <%= colour %> pos<%= row %><%= column %>" data-id="<%= row %><%= column %>">
+            <div class= "square <%= colour %> pos<%= row %><%= column %>" data-id="<%= row %><%= column %>">
 
               <% @game.pieces.each do |piece| %>
                 <% if piece.y_coordinate == row && piece.x_coordinate == column %>
-                  <div class="piece"><%= link_to piece.type, piece_path(piece) %></div>
+                  <div class="piece" data-piece="<%= piece.id %>"><%= link_to piece.type, piece_path(piece) %>
+
+                  </div>
                 <% end %>
               <% end %>
 

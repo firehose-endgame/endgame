@@ -7,6 +7,8 @@ class GamesController < ApplicationController
     @games = Game.available
   end
 
+
+
   def new
     @game = Game.new
   end
