@@ -10,16 +10,8 @@ class PiecesController < ApplicationController
     render json: piece
   end
 
-  def show
-    @piece = Piece.find_by_id(params[:id])
-    return render :status => 404 if @piece.blank?
-    @pieces = @piece.game.pieces
-    @game = @piece.game
-  end
 
-  def edit
-    @piece = Piece.find(params[:id])
-  end
+ 
 
   private
 

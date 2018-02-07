@@ -14,29 +14,4 @@ RSpec.describe PiecesController, type: :controller do
     end
   end
 
-  describe "pieces#show action" do
-    it "should successfully show the page if the piece is found" do
-      piece = FactoryBot.create(:piece)
-      get :show, params: { id: piece.id }
-      expect(response).to have_http_status(:success)
-    end
-
-    it "should return a 404 error if the gram is not found" do
-      get :show, params: { id: 'NOT ID' }
-      expect(response).to have_http_status(:not_found)
-    end
-  end
-
-  describe "pieces#edit action" do
-    it "should successfully show the edit form if the piece is found" do
-      piece = FactoryBot.create(:piece)
-      get :edit, params: { id: piece.id }
-      expect(response).to have_http_status(:success)
-    end
-
-    it "should return a 404 error if the gram is not found" do
-      get :show, params: { id: 'NOT ID' }
-      expect(response).to have_http_status(:not_found)
-    end
-  end
 end
