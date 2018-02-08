@@ -43,14 +43,16 @@
   $( function() {
 
     $( ".piece" ).draggable({
+
        drag: function(event, ui){
+
        pieceToMove = $(event.target).data("piece"); 
       }
     }).css({'cursor': 'move', containment: 'parent', 'z-index': '5'})
 
     $( ".square" ).droppable({
       drop: function(event, ui) {
-
+        ui.draggable.position( { of: $(this), my: 'center', at: 'middle' } );
         var targetSquare = $(event.target).data("id");
         var targetX = parseInt(targetSquare.toString().charAt(1));
         var targetY = parseInt(targetSquare.toString().charAt(0));

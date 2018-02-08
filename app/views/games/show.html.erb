@@ -21,8 +21,8 @@
 
               <% @game.pieces.each do |piece| %>
                 <% if piece.y_coordinate == row && piece.x_coordinate == column %>
-                  <div class="piece" data-piece="<%= piece.id %>"><%= piece.type %>
-
+                  <div class="piece" data-piece="<%= piece.id %>">
+                    <%= get_piece(piece.type, piece.white) %>
                   </div>
                 <% end %>
               <% end %>
