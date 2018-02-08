@@ -96,9 +96,19 @@ class Piece < ApplicationRecord
     return new_x > 8 || new_y > 8 || new_x < 1 || new_y < 1
   end
 
+  def makes_check?(new_x, new_y)
+    old_x = x_coordinate
+    old_y = y_coordinate
+    update_attributes(x_coordinate: new_x, y_coordinate: new_y)
+    game.check?(white) ? check = true : check = false
+    update_attributes(x_coordinate: old_x, y_coordinate: old_y)
+    check
+  end
+
   def is_valid?(new_x, new_y)
     return false if off_board?(new_x, new_y) || same_square?(new_x, new_y) || is_obstructed?(new_x, new_y)
     return false if piece_here?(new_x, new_y) && own_here?(new_x, new_y)
+    return false if makes_check?(new_x, new_y)
     return true
   end
 end

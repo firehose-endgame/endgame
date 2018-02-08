@@ -46,8 +46,8 @@ class Game < ApplicationRecord
   end 
 
   def check?(white)
-    king = pieces.find_by "type = 'King' and x_coordinate > 0 and white = ?", white 
-    other_pieces = pieces.where(white: !white)
+    king = pieces.find_by(type: 'King', white: white)
+    other_pieces = pieces.where(" white != ? and x_coordinate > ?", white, 0)
     other_pieces.each do |piece|
       return true if piece.is_valid?(king.x_coordinate, king.y_coordinate)
     end
