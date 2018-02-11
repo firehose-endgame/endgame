@@ -44,11 +44,32 @@ RSpec.describe Game, type: :model do
     	current_user_piece = Piece.offset(17).last
 			expect(current_user_piece.user_id).to eq(user.id)
     end
-
 	end
 
+  describe "game.check?" do
+    let(:game){FactoryBot.create(:game)}
+    it "should not be in check at start of game" do
+      check = game.check?(white=true)
+      expect(check).to eq(false)
+    end
 
+    it "should not be in check at start of game and piece is black" do
+      check = game.check?(white=false)
+      expect(check).to eq(false)
+    end
 
+    it "should be in check when the white king can be taken" do
+      game.pieces.find_by(type: 'Queen', white: false).move!(4, 5)
+      game.pieces.find_by(type: 'King', white: true).move!(4, 4)
+      check = game.check?(white=true)
+      expect(check).to eq(true)
+    end
 
-	
+    it "should be in check when the black king can be taken" do
+      game.pieces.find_by(type: 'Queen', white: true).move!(4, 4)
+      game.pieces.find_by(type: 'King', white: false).move!(4, 5)
+      check = game.check?(white=false)
+      expect(check).to eq(true)
+    end
+  end
 end
