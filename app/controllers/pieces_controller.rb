@@ -5,9 +5,21 @@ class PiecesController < ApplicationController
   end
 
   def update
-    piece = Piece.find(params[:id])
-    piece.update_attributes(piece_params)
-    render json: piece
+    @piece = Piece.find_by_id(params[:id])
+    @new_x = piece_params[:x_coordinate].to_i
+    @new_y = piece_params[:y_coordinate].to_i
+    
+    if @piece.is_valid?(@new_x, @new_y)
+      if @piece.move_to(@new_x, @new_y) === false
+        flash[:alert] = "Invalid move"
+      else
+        redirect_to game_path(@piece.game)
+      end
+    else
+      flash[:alert] = "Invalid move"
+    end
+
+
   end
 
 
