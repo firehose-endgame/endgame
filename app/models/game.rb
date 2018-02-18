@@ -8,6 +8,7 @@ class Game < ApplicationRecord
   scope :available, -> { where(:opponent_id => nil) }
 
   after_create :populate_game!
+  after_create :set_turn
 
 
   def populate_game!
@@ -43,7 +44,12 @@ class Game < ApplicationRecord
 
   def create_piece(x, y, piece)
     Piece.create(x_coordinate: x, y_coordinate: y, type: piece, white: (y<=2), taken: false, game_id: id, selected: false, user_id:((y<=2)? user.id : nil))
-  end 
+  end
+
+  def set_turn
+    update_attributes(current_turn_player_id: user_id)
+  end
+
 
   def check?(white)
     king = pieces.find_by(type: 'King', white: white)
