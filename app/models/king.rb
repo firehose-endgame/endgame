@@ -1,8 +1,29 @@
 class King < Piece
 
   def is_valid?(new_x, new_y)
-    return false unless super 
+    return false unless super
     return (x_coordinate - new_x).abs <=1 && (y_coordinate - new_y).abs <=1
   end
 
+  def can_move_out_of_check?
+    initial_x = x_coordinate
+    initial_y = y_coordinate
+    x = [initial_x - 1, initial_x + 1]
+    y = [initial_y - 1, initial_y + 1]
+    x.each do |x_coord|
+      y.each do |y_coord|
+        if is_valid?(x_coord, y_coord)
+          update_attributes(x_coordinate: x_coord, y_coordinate: y_coord)
+          if game.check?(white)
+            update_attributes(x_coordinate: initial_x, y_coordinate: initial_y)
+            return false
+          else
+            return true
+          end
+        else
+          return false
+        end
+      end
+    end
+  end
 end

@@ -43,6 +43,33 @@ class Piece < ApplicationRecord
     end
   end
 
+  def is_obstructable?
+    @board = []
+    numbers = [1,2,3,4,5,6,7,8]
+    numbers.each do |x|
+      numbers.each do |y|
+        @board << [x,y]
+      end
+    end
+    game.pieces.each do |piece|
+      if piece.type != "King" && self.white == piece.white
+        @board.each do |cell|
+          if piece.is_valid?(cell[0],cell[1])
+            old_x = piece.x_coordinate
+            old_y = piece.y_coordinate
+            piece.update_attributes!(x_coordinate: cell[0],y_coordinate: cell[1])
+            if game.check?(white) == false
+              return true
+            else
+              return false
+            end
+            piece.update_attributes!(x_coordinate: old_x, y_coordinate: old_y)
+          end
+        end
+      end
+    end
+  end
+
   def is_valid_diagonal?(new_x, new_y)
     return (new_x - x_coordinate).abs == (new_y - y_coordinate).abs
   end
