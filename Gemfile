@@ -49,12 +49,13 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
+gem 'bootstrap', '~> 4.0.0.beta3'
 gem 'rspec-rails', '~> 3.5'
 gem "factory_bot_rails"
 gem 'simple_form'
 gem 'devise'
 gem 'popper_js', '~> 1.12.3'
-gem 'bootstrap', '~> 4.0.0.beta3'
+
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'

@@ -17,4 +17,6 @@ class Pawn < Piece
     allowed_moves.push(allowed_moves[0]*2) if not moved
     return allowed_moves.include?(new_y - y_coordinate) && (new_x - x_coordinate).abs <= 1
   end
+
+
 end

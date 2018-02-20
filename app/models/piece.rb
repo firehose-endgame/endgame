@@ -111,4 +111,25 @@ class Piece < ApplicationRecord
     return false if makes_check?(new_x, new_y)
     return true
   end
+
+  def is_stalemate?
+    return false
+  end 
+
+  def promotable?(new_y)
+    return true if type == "Pawn" && (white && new_y==8 || !white && new_y==1) 
+    return false
+  end
+
+  def promotable_pieces(new_x, new_y)
+    promotions_possible = ["Queen", "Bishop", "Knight", "Rook"]
+    promotions_available = []
+    promotions_possible.each do |piece|
+      self.type = piece
+      promotions_available << piece unless self.is_stalemate?
+    end
+    self.type = "Pawn"
+    return promotions_available
+  end
+
 end

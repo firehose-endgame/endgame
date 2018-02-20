@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
+
   describe "is_valid? method" do
     let(:pawn){FactoryBot.create(:pawn, x_coordinate: 3, y_coordinate: 2)}
 
