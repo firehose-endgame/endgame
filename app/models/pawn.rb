@@ -18,5 +18,21 @@ class Pawn < Piece
     return allowed_moves.include?(new_y - y_coordinate) && (new_x - x_coordinate).abs <= 1
   end
 
+  def promotable?(new_y)
+    return true if type == "Pawn" && (white && new_y==8 || !white && new_y==1) 
+    return false
+  end
+
+  def promotable_pieces(new_x, new_y)
+    promotions_possible = ["Queen", "Bishop", "Knight", "Rook"]
+    promotions_available = []
+    promotions_possible.each do |piece|
+      self.type = piece
+      promotions_available << piece unless self.is_stalemate?
+    end
+    self.type = "Pawn"
+    return promotions_available
+  end
+
 
 end

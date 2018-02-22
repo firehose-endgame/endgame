@@ -14,15 +14,20 @@ RSpec.describe King, type: :model do
       expect(is_valid).to eq true
     end
     it "should check if king can move 1 space diagonally" do
-      mover = FactoryBot.create(:king)
-      is_valid = mover.is_valid?(3, 5)
+      game = FactoryBot.create(:game)
+      diag_moving_king = game.pieces.find_by(type: 'King', white: true)
+      diag_moving_king.x_coordinate = 4
+      diag_moving_king.y_coordinate = 4
+      is_valid = diag_moving_king.is_valid?(3, 5)
       expect(is_valid).to eq true
     end
     it "should check that king does not move into check" do
-      game = FactoryBot.create(:game)
-      king = game.pieces.find_by(type: 'King', white: true)
-      king.move!(4, 5)
-      is_valid = king.is_valid?(4, 6)
+      check_test_game = FactoryBot.create(:game)
+      check_king = check_test_game.pieces.find_by(type: 'King', white: true)
+      check_king.x_coordinate = 4
+      check_king.y_coordinate = 4
+      check_king.move!(4, 5)
+      is_valid = check_king.is_valid?(4, 6)
       expect(is_valid).to eq false
     end
   end

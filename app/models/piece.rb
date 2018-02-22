@@ -100,7 +100,7 @@ class Piece < ApplicationRecord
     old_x = x_coordinate
     old_y = y_coordinate
     update_attributes(x_coordinate: new_x, y_coordinate: new_y)
-    game.check?(white) ? check = true : check = false
+    game.check?(self.white) ? check = true : check = false
     update_attributes(x_coordinate: old_x, y_coordinate: old_y)
     check
   end
@@ -117,19 +117,9 @@ class Piece < ApplicationRecord
   end 
 
   def promotable?(new_y)
-    return true if type == "Pawn" && (white && new_y==8 || !white && new_y==1) 
     return false
   end
 
-  def promotable_pieces(new_x, new_y)
-    promotions_possible = ["Queen", "Bishop", "Knight", "Rook"]
-    promotions_available = []
-    promotions_possible.each do |piece|
-      self.type = piece
-      promotions_available << piece unless self.is_stalemate?
-    end
-    self.type = "Pawn"
-    return promotions_available
-  end
+
 
 end
