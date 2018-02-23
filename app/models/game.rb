@@ -47,10 +47,23 @@ class Game < ApplicationRecord
 
   def check?(white)
     king = pieces.find_by(type: 'King', white: white)
-    other_pieces = pieces.where(" white != ? and x_coordinate > ?", white, 0)
+    other_pieces = pieces.where("white != ? and x_coordinate > ?", white, 0)
     other_pieces.each do |piece|
       return true if piece.is_valid?(king.x_coordinate, king.y_coordinate)
     end
     false
   end
+
+  def stalemate?(white)
+    current_player_pieces = pieces.where(white: white, taken: false)
+    current_player_pieces.each do |piece|
+      8.downto(1).each do |row|
+        1.upto(8).each do |column|
+          return false if piece.is_valid?(row, column)
+        end
+      end
+    end
+    return true
+  end
+
 end

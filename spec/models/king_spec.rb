@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe King, type: :model do
-	describe "is_valid? method" do
+  describe "is_valid? method" do
     it "should check if king can move 1 space up" do
       mover = FactoryBot.create(:king)
       mover.reload
