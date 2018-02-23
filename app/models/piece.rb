@@ -100,7 +100,7 @@ class Piece < ApplicationRecord
     old_x = x_coordinate
     old_y = y_coordinate
     update_attributes(x_coordinate: new_x, y_coordinate: new_y)
-    game.check?(white) ? check = true : check = false
+    game.check?(self.white) ? check = true : check = false
     update_attributes(x_coordinate: old_x, y_coordinate: old_y)
     check
   end
@@ -111,4 +111,15 @@ class Piece < ApplicationRecord
     return false if makes_check?(new_x, new_y)
     return true
   end
+
+  def is_stalemate?
+    return false
+  end 
+
+  def promotable?(new_y)
+    return false
+  end
+
+
+
 end

@@ -1,51 +1,9 @@
-/*
-
-// create html for the board of 8 x 8 sqaures
-  $(function buildTheBoard() {
-    var boardRef = $('.board');
-    var boardhtmlElement ="";
-
-    for (var row = 8; row >=1; row--) {
-      for (var column = 1; column <= 8; column ++) {
-
-        if (row % 2 == 0 && column % 2 == 0 ) { var colour = "black" };
-        if (row % 2 == 0 && column % 2 != 0 ) { var colour = "white" };
-        if (row % 2 != 0 && column % 2 == 0 ) { var colour = "white" };
-        if (row % 2 != 0 && column % 2 != 0 ) { var colour = "black" };
-
-        boardhtmlElement += '<div class="square ' + colour + ' pos' + row + column + '"' + ' data-id="' + row + column + '"></div>';
-      };
-    };
-    boardRef.html(boardhtmlElement);
-  });
-
-  
-
-  // boiler plate for detecting user event
-  $('body').click(function(e) {
-    var touched = $(e.target).data("id");
-    alert("you just clicked " + touched + ".");
-
-    });
-
-
-    // get the piece that has that x and y co-ordinate which matches
-    // how to search database from javascript!!!
-
-
-    // if none > show no piece here
-    // if piece matches > show piece selected
-    // when user clicks on destination > show piece from before now at that square
-    // and run piece update refresh the show screen.
-  */
-
 
   $( function() {
 
     $( ".piece" ).draggable({
 
        drag: function(event, ui){
-
        pieceToMove = $(event.target).data("piece"); 
       }
     }).css({'cursor': 'move', containment: 'parent', 'z-index': '5'})
@@ -56,22 +14,59 @@
         var targetSquare = $(event.target).data("id");
         var targetX = parseInt(targetSquare.toString().charAt(1));
         var targetY = parseInt(targetSquare.toString().charAt(0));
-
-        // return true/false on validity of move here...
-
         $.post("/pieces/" + pieceToMove, {
           _method: "PUT",
           piece: {
             x_coordinate: targetX, y_coordinate: targetY
           }
-        }).fail(function(response) {
-            alert('Error: ' + response.responseText);
+        }).success(function(data) {
+            if (Array.isArray(data)) {
+              userSelectsPiece(data, pieceToMove);
+            }
+
         });
       }
     })
 
   });
 
+  function userSelectsPiece(data, pieceToMove) {
+
+    var queenBtn = document.getElementById('queen');
+    var bishopBtn = document.getElementById('bishop');
+    var knightBtn = document.getElementById('knight');
+    var rookBtn = document.getElementById('rook');
+
+    var modalText = "You may promote your pawn to any of the following pieces, " + data + ".";
+
+    if (data.includes("Queen")) { queenBtn.hidden = false; } else { queenBtn.hidden = true; }
+    if (data.includes("Bishop")) { bishopBtn.hidden = false; } else { bishopBtn.hidden = true; }
+    if (data.includes("Knight")) { knightBtn.hidden = false; } else { knightBtn.hidden = true; }
+    if (data.includes("Rook")) { rookBtn.hidden = false; } else { rookBtn.hidden = true; }
+    $(".pieces-available").html(modalText);
+    $('#myModal').modal('show'); 
+
+    
+    queenBtn.onclick = function(e) {
+      applyPromote("Queen",pieceToMove)
+    };
+
+    bishopBtn.onclick = function(e) {
+      applyPromote("Bishop",pieceToMove)
+    };
+
+    knightBtn.onclick = function(e) {
+      applyPromote("Knight",pieceToMove)
+    };
+
+    rookBtn.onclick = function(e) {
+      applyPromote("Rook",pieceToMove)
+    };
+  }
+
+function applyPromote(targetPiece, pieceId) {
+  $.post('/pieces/promote', {id: pieceId, promotion: targetPiece});
+}
 
 
 
