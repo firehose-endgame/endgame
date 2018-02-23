@@ -30,5 +30,53 @@ RSpec.describe King, type: :model do
       is_valid = check_king.is_valid?(4, 6)
       expect(is_valid).to eq false
     end
+
+    it "should see castling as a valid move" do
+      king = FactoryBot.create(:king, x_coordinate: 5)
+      rook = FactoryBot.create(:rook, x_coordinate: 1, game: king.game)
+      valid_move = king.is_valid?(3, 4)
+      expect(valid_move).to eq true
+    end
+
+    it "should stop castling if the rook has been moved" do
+      king = FactoryBot.create(:king, x_coordinate: 5)
+      rook = FactoryBot.create(:rook, x_coordinate: 1, game: king.game, moved: true)
+      invalid_move = king.is_valid?(3, 4)
+      expect(invalid_move).to eq false
+    end
+
+    it "should stop castling if the king has been moved" do
+      king = FactoryBot.create(:king, x_coordinate: 5, moved: true)
+      rook = FactoryBot.create(:rook, x_coordinate: 1, game: king.game)
+      invalid_move = king.is_valid?(3, 4)
+      expect(invalid_move).to eq false
+    end
+
+    it "should stop castling if the area is obstructed" do
+      king = FactoryBot.create(:king, x_coordinate: 5, moved: true)
+      rook = FactoryBot.create(:rook, x_coordinate: 1, game: king.game)
+      blocker = FactoryBot.create(:piece, game: king.game)
+      invalid_move = king.is_valid?(3, 4)
+      expect(invalid_move).to eq false
+    end
   end
+  <<-DOC
+  describe "move_to method" do
+    it "should be able to castle to the left" do
+      king = FactoryBot.create(:king, x_coordinate: 5)
+      rook = FactoryBot.create(:rook, x_coordinate: 1, game: king.game)
+      king.move_to(3, 4)
+      expect(king.x_coordinate).to eq 3
+      expect(rook.x_coordinate).to eq 4
+    end
+
+    it "should be able to castle to the right" do
+      king = FactoryBot.create(:king, x_coordinate: 5)
+      rook = FactoryBot.create(:rook, x_coordinate: 8, game: king.game)
+      king.move_to(7, 4)
+      expect(king.x_coordinate).to eq 7
+      expect(rook.x_coordinate).to eq 6
+    end
+  end
+  DOC
 end
