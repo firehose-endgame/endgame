@@ -1,7 +1,7 @@
 
 
 class GamesController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :update, :index]
+  before_action :authenticate_user!, only: [:new, :create, :update, :index, :forfeit]
 
   def index
     @games = Game.available
@@ -30,6 +30,12 @@ class GamesController < ApplicationController
     @game = Game.find_by_id(params[:id])
     @game.update(:opponent_id => current_user.id)
     redirect_to game_path(@game)
+  end
+
+  def forfeit
+    @game = Game.find_by_id(params[:id])
+    @game.forfeit(current_user)
+    redirect_to games_path
   end
 
   private

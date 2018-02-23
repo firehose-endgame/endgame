@@ -45,7 +45,15 @@ class Game < ApplicationRecord
 
   def create_piece(x, y, piece)
     Piece.create(x_coordinate: x, y_coordinate: y, type: piece, white: (y<=2), taken: false, game_id: id, selected: false, user_id:((y<=2)? user.id : nil))
-  end 
+  end
+
+	def forfeit(user)
+		if user.id = user_id
+			update_attributes(winning_player_id: opponent_id)
+		else
+			update_attributes(winning_player_id: user_id)			
+		end
+	end
 
 
 
