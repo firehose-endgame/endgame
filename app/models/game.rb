@@ -55,8 +55,8 @@ class Game < ApplicationRecord
   end
 
   def stalemate?(white)
-    turn_pieces = pieces.where(white: white, taken: false)
-    pieces.each do |piece|
+    current_player_pieces = pieces.where(white: white, taken: false)
+    current_player_pieces.each do |piece|
       8.downto(1).each do |row|
         1.upto(8).each do |column|
           return false if piece.is_valid?(row, column)
