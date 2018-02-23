@@ -44,7 +44,12 @@ RSpec.describe Game, type: :model do
     	current_user_piece = Piece.offset(17).last
 			expect(current_user_piece.user_id).to eq(user.id)
     end
-	end
+    it "set_turn method" do
+      user = FactoryBot.create(:user)
+      game = FactoryBot.create(:game, user_id: user.id)
+      expect(game.current_turn_player_id).to eq(game.user_id)
+    end
+  end
 
   describe "game.check?" do
     let(:game){FactoryBot.create(:game)}

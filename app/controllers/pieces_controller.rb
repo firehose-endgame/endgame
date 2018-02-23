@@ -6,20 +6,24 @@ class PiecesController < ApplicationController
 
   def update
     @piece = Piece.find_by_id(params[:id])
+    @game = @piece.game
     @new_x = piece_params[:x_coordinate].to_i
     @new_y = piece_params[:y_coordinate].to_i
-    invalid_move = "Invalid Move"
-
-    if @piece.is_valid?(@new_x, @new_y)
-      if @piece.move_to(@new_x, @new_y) === false
+    if @game.current_turn_player_id === @piece.user_id
+      if @piece.is_valid?(@new_x, @new_y)
+        if @piece.move_to(@new_x, @new_y) === false
+          flash[:alert] = invalid_move
+          redirect_to game_path(@piece.game)
+        else
+          make_move(@new_x, @new_y, @piece)
+          @game.update_attributes(current_turn_player_id: @game.opponent_id)
+        end
+      else
         flash[:alert] = invalid_move
         redirect_to game_path(@piece.game)
-      else
-        make_move(@new_x, @new_y, @piece)
       end
     else
-      flash[:alert] = invalid_move 
-      redirect_to game_path(@piece.game)
+      flash[:alert] = "Not your turn"
     end
   end
 
