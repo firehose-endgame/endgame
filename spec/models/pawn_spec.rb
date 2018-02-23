@@ -1,6 +1,40 @@
 require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
+
+  describe "promotable? method" do
+    let(:pawn){FactoryBot.create(:pawn, x_coordinate: 3, y_coordinate: 7)}
+      it "should allow white pawn at eighth rank to be promoted" do
+        promotable = pawn.promotable?(8)
+        expect(promotable).to eq true
+      end  
+      it "should prevent white pawn below the eighth rank to be promoted" do
+        promotable = pawn.promotable?(7)
+        expect(promotable).to eq false
+      end
+
+    let(:blackpawn){FactoryBot.create(:pawn, x_coordinate: 3, y_coordinate: 7, white: false)}
+      it "should allow black pawn at eighth rank to be promoted" do
+        promotable = blackpawn.promotable?(1)
+        expect(promotable).to eq true
+      end 
+      it "should prevent pawn below the eighth rank to be promoted" do
+        promotable = blackpawn.promotable?(2)
+        expect(promotable).to eq false
+      end
+  end
+
+  describe "promotable_pieces method" do
+    let(:pawn){FactoryBot.create(:pawn, x_coordinate: 3, y_coordinate: 8)}
+      it "should confirm whether queening is possible" do
+        promotable = pawn.promotable_pieces(2,3)
+        expect(promotable).to eq ["Queen", "Bishop", "Knight", "Rook"]
+      end 
+  end
+
+
+
+
   describe "is_valid? method" do
     let(:pawn){FactoryBot.create(:pawn, x_coordinate: 3, y_coordinate: 2)}
 
