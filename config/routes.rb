@@ -7,4 +7,6 @@ Rails.application.routes.draw do
 
   match 'pieces/promote' => 'pieces#promote_me', via: [:get, :post] 
 
+  get 'mygames', to: 'static_pages#mygames'
+
 end

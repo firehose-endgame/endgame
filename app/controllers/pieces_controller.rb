@@ -12,14 +12,14 @@ class PiecesController < ApplicationController
     if @game.current_turn_player_id === @piece.user_id
       if @piece.is_valid?(@new_x, @new_y)
         if @piece.move_to(@new_x, @new_y) === false
-          flash[:alert] = invalid_move
+          flash[:alert] = "invalid_move"
           redirect_to game_path(@piece.game)
         else
           make_move(@new_x, @new_y, @piece)
           @game.update_attributes(current_turn_player_id: @game.opponent_id)
         end
       else
-        flash[:alert] = invalid_move
+        flash[:alert] = "invalid_move"
         redirect_to game_path(@piece.game)
       end
     else

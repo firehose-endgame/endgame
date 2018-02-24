@@ -1,2 +1,39 @@
 @import "bootstrap";
 
+
+.hero {
+  background: image_url('fjchess1.jpg'); 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 470px;
+  box-shadow: 0px 1px 3px #2a2a2a; 
+  color: black;
+}
+
+
+.navbar {
+  font-family: "Helvetica Neue", Helvetica;
+  font-weight: 300;
+}
+
+
+.frosty {
+  background: rgba(54,61,64,0.75);
+  color: white;
+}
+
+.frosty h1 {
+  font-family: "Helvetica Neue", Helvetica;
+  font-weight: 100;
+  text-shadow: 1px 1px 1px #000;
+}
+
+
+.frosty h2 {
+  font-family: "Helvetica Neue", Helvetica;
+  font-weight: 200;
+  text-shadow: rgba(0, 0, 0, 0.95) 1px 1px;
+}
+

@@ -62,9 +62,16 @@
 
       </div>
     </div>
-    <div class="col-2 opponent sidebar">
-      opponent here
-      <%= @game.opponent_id %>
+    <div class="col-2 opponent sidebar">   
+        <% if @game.opponent_id == nil && @game.user == current_user %>
+          no opponent yet
+        <% elsif @game.opponent_id == nil && @game.user != current_user %>
+          <% Game.where(:id => @game.id).update_all(:opponent_id => current_user.id) %>
+          <%= current_user.email %>
+        <% else %>
+          <% opponent = User.where(:id => @game.opponent_id).first %>
+          <%= opponent.email %>
+        <% end %>
     </div>
   </div>
 </div>

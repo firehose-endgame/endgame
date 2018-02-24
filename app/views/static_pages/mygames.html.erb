@@ -1,0 +1,35 @@
+
+<div class="col-10 offset-1" >
+  <br /><br />
+  <h1>my games</h1>
+  <div class="row">
+    <div class="col-sm-3 col-12 available-subtitle">Game</div>
+    <div class="col-sm-3 col-12 available-subtitle">Player 1</div>
+    <div class="col-sm-3 col-12 available-subtitle">Player 2</div>
+    <div class="col-sm-3 col-12 available-subtitle">Go to Game</div>
+  </div>
+  <div class="row">
+    <% @mygames.each do |game| %>
+
+      <div class="col-sm-3 col-12 float-left">
+        <%= game.name %> 
+      </div>
+      <div class="col-sm-3 col-12">
+        <%= game.user.email %>
+      </div>
+      <div class="col-sm-3 col-12">
+        <% if game.opponent_id  == nil %>
+          no opponent
+        <% else %>
+          <% player2 = User.where(:id => game.opponent_id).first %>
+          <%= player2.email %>
+        <% end %>
+      </div>
+      <div class="col-sm-3 col-12 float-right">
+        <%= link_to 'continue', game_path(game.id), class: 'btn btn-success' %>
+      </div>
+      <br /><br />
+
+    <% end %>
+  </div>
+</div>
