@@ -52,17 +52,27 @@ class Game < ApplicationRecord
     king = pieces.find_by(type: 'King', white: white)
     king_x = king.x_coordinate
     king_y = king.y_coordinate
+    p check?(white)
+    p @threatening_pieces
     if check?(white) == true
       @threatening_pieces.each do |threatening_piece|
-        if threatening_piece.x_coordinate === king_x - 1 || threatening_piece.y_coordinate === king_y - 1 || threatening_piece.y_coordinate === king_y + 1 || threatening_piece.y_coordinate === king_y + 1#king can capture piece
+        if (threatening_piece.x_coordinate - king_x).abs <=1 && (threatening_piece.y_coordinate - king_y).abs <=1
+          p "A"
+          p (threatening_piece.x_coordinate - king_x).abs <=1 && (threatening_piece.y_coordinate - king_y).abs <=1
           return false
         end
       end
       if king.can_move_out_of_check?
+        p king
+        p "B"
+        p king.can_move_out_of_check?
         return false
       end
       @threatening_pieces.each do |threatening_piece|
         if threatening_piece.is_obstructable?#threatening_piece can be blocked by another piece
+          p king
+          "C"
+          p threatening_piece.is_obstructable?
           return false
         end
       end
