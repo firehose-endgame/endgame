@@ -9,21 +9,22 @@ class PiecesController < ApplicationController
     @game = @piece.game
     @new_x = piece_params[:x_coordinate].to_i
     @new_y = piece_params[:y_coordinate].to_i
-    if @game.current_turn_player_id === @piece.user_id
+    if @game.current_turn_player_id == @piece.user_id
       if @piece.is_valid?(@new_x, @new_y)
-        if @piece.move_to(@new_x, @new_y) === false
-          flash[:alert] = invalid_move
+        if @piece.move_to(@new_x, @new_y) == false
+          flash[:alert] = "invalid_move"
           redirect_to game_path(@piece.game)
         else
           make_move(@new_x, @new_y, @piece)
           @game.update_attributes(current_turn_player_id: @game.opponent_id)
         end
       else
-        flash[:alert] = invalid_move
         redirect_to game_path(@piece.game)
+        flash[:alert] = "invalid_move"
       end
     else
-      flash[:alert] = "Not your turn"
+      flash[:alert] = "it's not your move"
+      redirect_to game_path(@piece.game)
     end
   end
 
@@ -38,9 +39,19 @@ class PiecesController < ApplicationController
       available_promotions = piece.promotable_pieces(new_x, new_y)
       render json: available_promotions
     else
+      change_next_player(piece)
       redirect_to game_path(piece.game)
     end
 
+  end
+
+
+  def change_next_player(piece)
+      if piece.game.current_turn_player_id == piece.game.user_id
+        Game.where(:id => piece.game).update_all(:current_turn_player_id => piece.game.opponent_id)
+      else
+        Game.where(:id => piece.game).update_all(:current_turn_player_id => piece.game.user_id)
+      end
   end
 
 
@@ -49,6 +60,7 @@ class PiecesController < ApplicationController
     promotion = params[:promotion]
     Piece.where(:id => id).update_all(:type => promotion) 
     piece = Piece.find_by_id(id)
+    change_next_player(piece)
     redirect_to game_path(piece.game)
   end
 

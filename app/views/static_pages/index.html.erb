@@ -1,1 +1,28 @@
-<h1>coming soon..... ENDPOINT</h1>
+<div class="hero">
+  <br /><br/><br /><br/>
+  <div class="frosty col-10 offset-1 text-center">
+    <br /><br />
+    <h1>endgame</h1>
+    <br />
+    <h2>play today, make your move</h2>
+    <br />
+
+    <% if user_signed_in? %>
+      <%= link_to 'my games', mygames_path, class: 'btn btn-success' %>&nbsp;&nbsp;&nbsp;
+      <%= link_to 'new game', new_game_path, class: 'btn btn-success' %>&nbsp;&nbsp;&nbsp;
+      <%= link_to 'join game', games_path, class: 'btn btn-success' %>
+    <% else %>
+      <%= link_to 'log in', new_user_session_path, class: 'btn btn-success' %>&nbsp;&nbsp;&nbsp;
+      <%= link_to 'sign up', new_user_registration_path, class: 'btn btn-success' %>
+    <% end %>
+    <br /><br /><br />
+  </div>
+</div>
+
+<br />
+<div class="col-10 offset-1">
+  <h3>Play Some Chess Today...</h3>
+  <br />
+  <p>It's better than, playing checkers but not as good as backgammon!</p>
+</div>
+
