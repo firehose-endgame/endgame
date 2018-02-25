@@ -5,7 +5,7 @@ class StaticPagesController < ApplicationController
 
 
   def mygames
-    @mygames = get_mygames
+    @mygames ||= get_mygames
   end
 
   def get_mygames
