@@ -35,7 +35,11 @@
       
   <div class="row">
     <div class="col-2 my sidebar">
-      <%= @game.user.email %>
+      <% if @game.current_turn_player_id == @game.user_id %>
+        <div class="next-player-on"><%= @game.user.email %></div>
+      <% else %>
+        <div class="next-player-off"><%= @game.user.email %></div>
+      <% end %>
     </div>
     <div class="col-8">
       <div class="board">
@@ -58,20 +62,29 @@
         <% end %>
 
 
-
-
       </div>
     </div>
-    <div class="col-2 opponent sidebar">   
-        <% if @game.opponent_id == nil && @game.user == current_user %>
-          no opponent yet
-        <% elsif @game.opponent_id == nil && @game.user != current_user %>
-          <% Game.where(:id => @game.id).update_all(:opponent_id => current_user.id) %>
-          <%= current_user.email %>
+    <div class="col-2 opponent sidebar">
+      <div class="next-player-off">
+        <% if @game.current_turn_player_id == @game.opponent_id %>
+          <div class="next-player-on">
         <% else %>
-          <% opponent = User.where(:id => @game.opponent_id).first %>
-          <%= opponent.email %>
+          <div class="next-player-off">
         <% end %>
+        
+            <% if @game.opponent_id == nil && @game.user == current_user %>
+              no opponent yet
+            <% elsif @game.opponent_id == nil && @game.user != current_user %>
+              <%= assign_opponent(@game.id, current_user.id) %>
+              <%= current_user.email %>
+            <% else %>
+              <% opponent = User.where(:id => @game.opponent_id).first %>
+              <%= opponent.email %>
+            <% end %>
+
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
