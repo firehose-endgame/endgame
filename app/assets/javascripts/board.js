@@ -1,4 +1,5 @@
-
+$(document).on('turbolinks:load', function() {
+  
   $( function() {
 
     $( ".piece" ).draggable({
@@ -64,10 +65,12 @@
     };
   }
 
-function applyPromote(targetPiece, pieceId) {
-  $.post('/pieces/promote', {id: pieceId, promotion: targetPiece});
-}
+  function applyPromote(targetPiece, pieceId) {
+    $.post('/pieces/promote', {id: pieceId, promotion: targetPiece});
+  }
 
+
+});
 
 
 
