@@ -44,6 +44,8 @@ RSpec.describe Game, type: :model do
     	current_user_piece = Piece.offset(17).last
 			expect(current_user_piece.user_id).to eq(user.id)
     end
+
+	end
     it "set_turn method" do
       user = FactoryBot.create(:user)
       game = FactoryBot.create(:game, user_id: user.id)
@@ -75,6 +77,57 @@ RSpec.describe Game, type: :model do
       game.pieces.find_by(type: 'King', white: false).move!(4, 5)
       check = game.check?(white=false)
       expect(check).to eq(true)
+    end
+  end
+
+  describe "game.checkmate" do
+      let(:game){FactoryBot.create(:game)}
+      before :each do
+        game.pieces.where.not(type: "King").where.not(type: "Rook").where.not(type: "Queen").each do |piece|
+          piece.capture!(piece)
+        end
+      end
+
+      it "should be checkmate when the King cannot capture the @threatening_piece, move_out_of_check, or the @threatening_piece cannot be obstructed" do
+
+
+        game.pieces.find_by(type: 'King', white: true).move!(4, 5)
+        game.pieces.find_by(type: 'Rook', white: false).move!(3, 4)
+        game.pieces.find_by(type: 'Rook', white: false).move!(5, 4)
+        game.pieces.find_by(type: 'Queen', white: false).move!(4, 4)
+        checkmate = game.checkmate(white=true)
+        check = game.check?(white=true)
+        expect(check).to eq(true)
+        expect(checkmate).to eq(true)
+      end
+      it "should not be checkmate when the King can capture the @threatening_piece" do
+        game.pieces.find_by(type: 'Queen', white: false).move!(4, 5)
+        game.pieces.find_by(type: 'King', white: true).move!(4, 4)
+        check = game.check?(white=true)
+        expect(check).to eq(true)
+        checkmate = game.checkmate(white=true)
+        expect(checkmate).to eq(false)
+      end
+      it "should not be checkmate when the King can move out of check" do
+        game.pieces.find_by(type: 'Rook', white: false).move!(4, 5)
+        game.pieces.find_by(type: 'King', white: true).move!(4, 3)
+        checkmate = game.checkmate(white=true)
+        check = game.check?(white=true)
+        expect(check).to eq(true)
+        expect(checkmate).to eq(false)
+      end
+      it "should not be in checkmate when @threatening_piece is_obstructable" do
+        game.pieces.where.not(type: "Pawn").each do |piece|
+          piece.capture!(piece)
+        end
+        game.pieces.find_by(type: 'Rook', white: false).move!(3, 5)
+        game.pieces.find_by(type: 'Pawn', white: true).move!(5, 4)
+        game.pieces.find_by(type: 'King', white: true).move!(6, 5)
+        check = game.check?(white=true)
+        expect(check).to eq(true)
+        checkmate = game.checkmate(white=true)
+        expect(checkmate).to eq(false)
+      end
     end
   end
 
