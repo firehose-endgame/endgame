@@ -1,4 +1,28 @@
-<h1>available games</h1>
-<h6>do we want this to be the landing page?</h6>
-<hr />
-<h3><%= @games.available %></h3>
+
+<div class="col-10 offset-1" >
+  <br /><br />
+  <h1>available games to join</h1>
+  <div class="row">
+    <div class="col-sm-4 col-12 available-subtitle">Game</div>
+    <div class="col-sm-4 col-12 available-subtitle">Opponent</div>
+    <div class="col-sm-4 col-12 available-subtitle">Play?</div>
+  </div>
+  <div class="row">
+    <% @games.available.each do |game| %>
+      <% if game.user != current_user %>
+        <div class="col-sm-4 col-12 float-left">
+          <%= game.name %> 
+        </div>
+        <div class="col-sm-4 col-12">
+          <%= game.user.email %>
+        </div>
+        <div class="col-sm-4 col-12 float-right">
+          <%= link_to 'join game', game_path(game.id), class: 'btn btn-success' %>
+        </div>
+        <br /><br />
+
+      <% end %>
+    <% end %>
+  </div>
+</div>    
+

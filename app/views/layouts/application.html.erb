@@ -11,13 +11,40 @@
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <title>jQuery UI Droppable - Default functionality</title>
 	  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	  <link rel="stylesheet" href="/resources/demos/style.css">
-	  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
   </head>
 
   <body>
+    <!-- Image and text -->
+    <nav class="navbar navbar-light bg-faded">
+
+        <%= link_to 'endgame', root_path, class: 'navbar-brand' %>
+      
+        <ul class="navbar-nav">
+          <% if user_signed_in? %>
+            <li class="nav-item active">
+              <a class="nav-link" href="#"><%= link_to 'log out', destroy_user_session_path, :method => :delete %><span class="sr-only">(current)</span></a>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to 'sign up', new_user_registration_path %>
+              &nbsp;
+              <%= link_to 'log in', new_user_session_path %>
+            </li>
+          <% end %>
+        </ul>
+    
+    </nav>
+
+
+    <% if notice.present? %>
+      <p class="notice"><%= notice %></p>
+    <% end %>
+    <% if alert.present? %>
+      <p class="alert"><%= alert %></p>
+    <% end %>
     <%= yield %>
   </body>
 </html>

@@ -22,5 +22,11 @@ module GamesHelper
   end
 
 
+  def assign_opponent(game, opponent)
+    Game.where(:id => game).update_all(:opponent_id => opponent)
+    Piece.where(:game_id => game, :white => false).update_all(:user_id => opponent)
+  end
+
+
 
 end

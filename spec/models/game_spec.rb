@@ -46,6 +46,12 @@ RSpec.describe Game, type: :model do
     end
 
 	end
+    it "set_turn method" do
+      user = FactoryBot.create(:user)
+      game = FactoryBot.create(:game, user_id: user.id)
+      expect(game.current_turn_player_id).to eq(game.user_id)
+    end
+  end
 
   describe "game.check?" do
     let(:game){FactoryBot.create(:game)}
@@ -73,6 +79,7 @@ RSpec.describe Game, type: :model do
       expect(check).to eq(true)
     end
   end
+
   describe "game.checkmate" do
       let(:game){FactoryBot.create(:game)}
       before :each do
@@ -123,3 +130,21 @@ RSpec.describe Game, type: :model do
       end
     end
   end
+
+  describe "stalemate?" do
+    let(:game){FactoryBot.create(:game)}
+    it "should return true if the game is in a stalemate" do
+      game.pieces.delete_all
+      black_king = FactoryBot.create(:piece, type: 'King', white: false, game: game, x_coordinate: 8, y_coordinate: 8)
+      white_king = FactoryBot.create(:piece, type: 'King', white: true, game: game, x_coordinate: 7, y_coordinate: 6)
+      white_queen = FactoryBot.create(:piece, type: 'Queen', white: true, game: game, x_coordinate: 6, y_coordinate: 7)
+      stalemate = game.stalemate?(white=false)
+      expect(stalemate).to eq(true)
+    end
+
+    it "should return false if the game is not in a stalemate" do
+      stalemate = game.stalemate?(white=true)
+      expect(stalemate).to eq(false)
+    end
+  end
+end

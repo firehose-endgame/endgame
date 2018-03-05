@@ -1,6 +1,32 @@
 
 <%= javascript_include_tag "board" %>
 
+<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h5 class="modal-title">Select Piece to Promote To</h5>
+        </div>
+        <div class="modal-body">
+          <div class="pieces-available"></div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" id="queen" data-dismiss="modal">queen ♕</button>
+          <button type="button" class="btn btn-default" id="bishop" data-dismiss="modal">bishop ♗</button>
+          <button type="button" class="btn btn-default" id="knight" data-dismiss="modal">knight ♘</button>
+          <button type="button" class="btn btn-default" id="rook" data-dismiss="modal">rook ♖</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
 <div class="col-11 offset 0.5 container">
   <div class="col-8 offset-2">
     <h1 class="board-title"><%= @game.name %></h1>
@@ -9,7 +35,11 @@
       
   <div class="row">
     <div class="col-2 my sidebar">
-      <%= @game.user.email %>
+      <% if @game.current_turn_player_id == @game.user_id %>
+        <div class="next-player-on"><%= @game.user.email %></div>
+      <% else %>
+        <div class="next-player-off"><%= @game.user.email %></div>
+      <% end %>
     </div>
     <div class="col-8">
       <div class="board">
@@ -32,17 +62,31 @@
         <% end %>
 
 
-
-
       </div>
     </div>
     <div class="col-2 opponent sidebar">
-      opponent here
-      <%= @game.opponent_id %>
+      <div class="next-player-off">
+        <% if @game.current_turn_player_id == @game.opponent_id %>
+          <div class="next-player-on">
+        <% else %>
+          <div class="next-player-off">
+        <% end %>
+        
+            <% if @game.opponent_id == nil && @game.user == current_user %>
+              no opponent yet
+            <% elsif @game.opponent_id == nil && @game.user != current_user %>
+              <%= assign_opponent(@game.id, current_user.id) %>
+              <%= current_user.email %>
+            <% else %>
+              <% opponent = User.where(:id => @game.opponent_id).first %>
+              <%= opponent.email %>
+            <% end %>
+
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
 
-<script>
 
-</script>

@@ -2,6 +2,23 @@
 
 }
 
+.btn-default {
+    padding: 10px 20px;
+    font-size: 21px;
+    font-weight: 700;
+    border-radius: 10px;
+    width:50%;
+
+}
+
+.next-player-on {
+  color: green;
+}
+
+.next-player-off {
+  color: black;
+}
+
 
 .board-title {
   text-align: center;
@@ -22,15 +39,16 @@
 }
 
 .piece {
+  padding-top: 5px;
   width: 100%;
   height: 100%;
   line-height: 100%;
   position: absolute;
-  color: blue;
+  color: black;
   text-align: center;
   display: table-cell;
   vertical-align: middle;
-  font-size: 400%;
+  font-size: 80px;
 }
 
 .white {
@@ -38,11 +56,14 @@
 }
 
 .black {
+  background-color: #D0D4A7;
+}
+.nothing {
   background-color: #1E1E1E;
 }
 
 .pos12 {
-  /* example - can use this reference to style individual board element, i.e. place piece image on board */
+  /* example - can use this reference to style individual board element */
 }
 
 .sidebar {
