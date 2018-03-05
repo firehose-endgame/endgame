@@ -6,6 +6,7 @@ class King < Piece
   end
 
   def can_move_out_of_check?
+    p self
     initial_x = x_coordinate
     initial_y = y_coordinate
     x = [initial_x - 1, initial_x + 1]
@@ -14,14 +15,15 @@ class King < Piece
       y.each do |y_coord|
         if is_valid?(x_coord, y_coord)
           update_attributes(x_coordinate: x_coord, y_coordinate: y_coord)
-          if game.check?(white)
+          p self
+          if game.check?(white) == false
             update_attributes(x_coordinate: initial_x, y_coordinate: initial_y)
-            return false
-          else
             return true
+          else
+            return false
           end
         else
-          return false
+          return true
         end
       end
     end

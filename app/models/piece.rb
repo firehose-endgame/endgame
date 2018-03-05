@@ -43,7 +43,24 @@ class Piece < ApplicationRecord
     end
   end
 
+  # def is_in_check?(x = self.x_coordinate, y = self.y_coordinate)
+  #   game = self.game
+  #   in_check = false
+  #   game.pieces.each do |enemy|
+  #     if enemy.white != self.white
+  #       if enemy.is_valid?(x,y)
+  #        in_check = true
+  #       end
+  #     end
+  #   end
+  #   return in_check
+  # end
+
+
   def is_obstructable?
+    can_protect = false
+    king = self
+    game = self.game
     @board = []
     numbers = [1,2,3,4,5,6,7,8]
     numbers.each do |x|
@@ -51,23 +68,23 @@ class Piece < ApplicationRecord
         @board << [x,y]
       end
     end
+
     game.pieces.each do |piece|
-      if piece.type != "King" && self.white == piece.white
+      if piece.type != "King" && king.white == piece.white
         @board.each do |cell|
           if piece.is_valid?(cell[0],cell[1])
-            old_x = piece.x_coordinate
-            old_y = piece.y_coordinate
+            orig_x = piece.x_coordinate
+            orig_y = piece.y_coordinate
             piece.update_attributes!(x_coordinate: cell[0],y_coordinate: cell[1])
             if game.check?(white) == false
-              return true
-            else
-              return false
+              can_protect = true
             end
-            piece.update_attributes!(x_coordinate: old_x, y_coordinate: old_y)
+            piece.update_attributes!(x_coordinate: orig_x,y_coordinate: orig_y)
           end
         end
       end
     end
+    return can_protect
   end
 
   def is_valid_diagonal?(new_x, new_y)

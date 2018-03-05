@@ -52,46 +52,45 @@ class Game < ApplicationRecord
     king = pieces.find_by(type: 'King', white: white)
     king_x = king.x_coordinate
     king_y = king.y_coordinate
-    p check?(white)
-    p @threatening_pieces
-    if check?(white) == true
-      @threatening_pieces.each do |threatening_piece|
-        if (threatening_piece.x_coordinate - king_x).abs <=1 && (threatening_piece.y_coordinate - king_y).abs <=1
-          p "A"
-          p (threatening_piece.x_coordinate - king_x).abs <=1 && (threatening_piece.y_coordinate - king_y).abs <=1
+    if self.check?(white) == true
+      arr = self.threatening_pieces(white)
+      arr.each do |threatening_piece|
+        if ((threatening_piece.x_coordinate - king_x).abs <=1 && (threatening_piece.y_coordinate - king_y).abs <=1)
+          king.update_attributes!(x_coordinate: threatening_piece.x_coordinate ,y_coordinate: threatening_piece.y_coordinate)
+          if self.check?(white) == true
+            return true
+          end
           return false
+        elsif king.can_move_out_of_check?
+          return false
+        elsif threatening_piece.is_obstructable?#threatening_piece can be blocked by another piece
+          return false
+        else
+          return true
         end
       end
-      if king.can_move_out_of_check?
-        p king
-        p "B"
-        p king.can_move_out_of_check?
-        return false
-      end
-      @threatening_pieces.each do |threatening_piece|
-        if threatening_piece.is_obstructable?#threatening_piece can be blocked by another piece
-          p king
-          "C"
-          p threatening_piece.is_obstructable?
-          return false
-        end
-      end
-      return true
     else
       return false
     end
   end
 
-  def check?(white)
+  def threatening_pieces(white)
     king = pieces.find_by(type: 'King', white: white)
-    @threatening_pieces = []
+    t_pieces = []
     other_pieces = pieces.where(" white != ? and x_coordinate > ?", white, 0)
     other_pieces.each do |piece|
       if piece.is_valid?(king.x_coordinate, king.y_coordinate)
-        @threatening_pieces << piece
-        return true
+        t_pieces << piece
       end
     end
-    false
+    return t_pieces
+  end
+
+  def check?(white)
+    if threatening_pieces(white).any?
+      return true
+    else
+      return false
+    end
   end
 end
